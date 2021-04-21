@@ -1,0 +1,14 @@
+FROM ubuntu:20.04
+RUN bash
+RUN apt update
+RUN apt-get install curl -y
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+RUN apt-get install -y nodejs
+
+ENV NODE_ENV=production
+WORKDIR /app
+COPY ["package.json", "package-lock.json*", "./"]
+RUN npm install --production
+COPY ./dist .
+EXPOSE 3000
+CMD [ "node", "main.js" ]
