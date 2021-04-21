@@ -1,15 +1,17 @@
 FROM node:14.16.1-alpine3.10 AS build
 WORKDIR /build
-COPY ["package.json", "./"]
-RUN npm install
+COPY package.json .
+COPY yarn.lock .
+RUN rm -rf /build/node_modules && yarn
 COPY . .
-RUN npm run build
+RUN yarn build
 
 FROM node:14.16.1-alpine3.10 AS app
 WORKDIR /app
 COPY --from=build /build/dist /app
-COPY --from=build /build/package.json /app
+COPY package.json .
+COPY yarn.lock .
 ENV NODE_ENV=production
-RUN npm install --production
+RUN rm -rf /app/node_modules && yarn install --production --frozen-lockfile
 EXPOSE 3000
 CMD [ "node", "main.js" ]

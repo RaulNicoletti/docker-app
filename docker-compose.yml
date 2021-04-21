@@ -1,6 +1,6 @@
 version: '3.8'
 services:
   node-app:
-    image: raulnicoletti/docker-app:v1
+    image: raulnicoletti/docker-app:latest
     ports:
       - 3000:3000
