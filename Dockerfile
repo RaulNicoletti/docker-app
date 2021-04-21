@@ -2,7 +2,7 @@ FROM node:14.16.1-alpine3.10 AS build
 WORKDIR /build
 COPY package.json .
 COPY yarn.lock .
-RUN rm -rf /build/node_modules && yarn
+RUN rm -rf /build/node_modules && yarn install --frozen-lockfile
 COPY . .
 RUN yarn build
 
