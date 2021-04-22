@@ -11,9 +11,10 @@
     "outDir": "./dist",
     "baseUrl": "src",
     "paths": {
-      "@entities/*": ["entities/*"],
-      "@lib/*": ["lib/*"],
-      "@modules/*": ["modules/*"]
+      "#entities/*": ["entities/*"],
+      "#lib/*": ["lib/*"],
+      "#modules/*": ["modules/*"],
+      "#types/*": ["types/*"]
     },
     "incremental": true
   }

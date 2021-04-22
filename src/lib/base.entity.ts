@@ -12,19 +12,21 @@ export class Base {
   public id: number;
 
   @Column()
-  public createdAt: Date;
+  protected createdAt: Date;
 
   @Column()
-  public updatedAt: Date;
+  protected updatedAt: Date;
 
   @BeforeInsert()
   protected updateDates() {
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
+    const date = new Date();
+    this.createdAt = date;
+    this.updatedAt = date;
   }
 
   @BeforeUpdate()
   protected updateDate() {
-    this.updatedAt = new Date();
+    const date = new Date();
+    this.updatedAt = date;
   }
 }
