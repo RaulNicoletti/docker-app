@@ -16,4 +16,4 @@ COPY start.sh .
 ENV NODE_ENV=production
 RUN rm -rf /app/node_modules && yarn install --production --frozen-lockfile
 EXPOSE 3000
-CMD [ "echo", "hello" ]
+CMD [ "node", "main.js" ]
