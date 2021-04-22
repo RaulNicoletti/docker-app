@@ -8,10 +8,7 @@ module.exports = [
     password: 'A',
     database: 'postgres',
     schema: 'public',
-    entities: [
-      'dist/entities/*.entity{.ts,.js}',
-      'entities/*.subscriber{.ts,.js}',
-    ],
+    entities: ['dist/entities/*.entity{.ts,.js}', 'entities/*.entity{.ts,.js}'],
     subscribers: [
       'dist/subscribers/*.subscriber{.ts,.js}',
       'subscribers/*.subscriber{.ts,.js}',
