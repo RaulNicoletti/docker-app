@@ -18,13 +18,13 @@ export class Base {
   public updatedAt: Date;
 
   @BeforeInsert()
-  updateDates() {
+  protected updateDates() {
     this.createdAt = new Date();
     this.updatedAt = new Date();
   }
 
   @BeforeUpdate()
-  updateDate() {
+  protected updateDate() {
     this.updatedAt = new Date();
   }
 }

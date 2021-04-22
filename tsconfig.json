@@ -12,7 +12,8 @@
     "baseUrl": "src",
     "paths": {
       "@entities/*": ["entities/*"],
-      "@lib/*": ["lib/*"]
+      "@lib/*": ["lib/*"],
+      "@modules/*": ["modules/*"]
     },
     "incremental": true
   }
