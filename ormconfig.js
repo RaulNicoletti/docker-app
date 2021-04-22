@@ -8,13 +8,19 @@ module.exports = [
     password: 'A',
     database: 'postgres',
     schema: 'public',
-    entities: ['dist/entities/*.entity{.ts,.js}'],
-    subscribers: ['dist/subscribers/*.subscriber{.ts,.js}'],
-    migrations: ['migrations/dist/*.js'],
+    entities: [
+      'dist/entities/*.entity{.ts,.js}',
+      'entities/*.subscriber{.ts,.js}',
+    ],
+    subscribers: [
+      'dist/subscribers/*.subscriber{.ts,.js}',
+      'subscribers/*.subscriber{.ts,.js}',
+    ],
+    migrations: ['dist/migrations/*{.ts,.js}', 'migrations/*{.ts,.js}'],
     synchronize: false,
     logging: true,
     cli: {
-      migrationsDir: 'migrations',
+      migrationsDir: 'src/migrations',
     },
   },
 ];
