@@ -9,13 +9,7 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "src",
-    "paths": {
-      "#entities/*": ["entities/*"],
-      "#lib/*": ["lib/*"],
-      "#modules/*": ["modules/*"],
-      "#types/*": ["types/*"]
-    },
+    "baseUrl": "./",
     "incremental": true
   }
 }

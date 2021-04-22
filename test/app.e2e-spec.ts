@@ -4,7 +4,11 @@
 // import { AppModule } from './../src/app.module';
 
 describe('AppController (e2e)', () => {
-  it('ok', () => expect('ok').toBe('ok'));
+  describe('UserController', () => {
+    const ok = 'ok';
+    it('should be ok', () => expect(ok).toBe('ok'));
+  });
+
   // let app: INestApplication;
 
   // beforeEach(async () => {
