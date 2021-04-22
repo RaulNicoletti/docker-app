@@ -11,7 +11,9 @@ WORKDIR /app
 COPY --from=build /build/dist /app
 COPY package.json .
 COPY yarn.lock .
+COPY ormconfig.js .
+COPY start.sh .
 ENV NODE_ENV=production
 RUN rm -rf /app/node_modules && yarn install --production --frozen-lockfile
 EXPOSE 3000
-CMD [ "node", "main.js" ]
+CMD [ "./start.sh" ]
