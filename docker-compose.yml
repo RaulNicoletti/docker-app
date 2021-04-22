@@ -1,6 +1,16 @@
 version: '3.8'
 services:
-  node-app:
+  postgres:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ./docker-volumes/pg:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: A
+  app:
     image: raulnicoletti/docker-app:latest
     ports:
       - 3000:3000
+    depends_on:
+      - "postgres"
