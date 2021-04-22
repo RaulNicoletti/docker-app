@@ -17,7 +17,7 @@ services:
     networks:
       - backend
     depends_on:
-      - postgres
+      - db
 
 networks:
   backend:
