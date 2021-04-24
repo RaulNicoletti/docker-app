@@ -8,17 +8,20 @@ import {
   Delete,
   HttpStatus,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { Response } from '../../types/request.type';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '../../entities/user.entity';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.userService.create(createUserDto);
@@ -30,7 +33,7 @@ export class UserController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<User[]> {
+  async findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(+id);
   }
 

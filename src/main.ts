@@ -3,6 +3,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import { fastifyHelmet } from 'fastify-helmet';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -11,7 +12,9 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
-  await app.listen(3000);
+  app.register(fastifyHelmet);
+  app.enableCors();
+  await app.listen(process.env.PORT);
   console.log('\nApplication running on port 3000');
 }
 bootstrap();

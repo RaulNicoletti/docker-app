@@ -1,4 +1,6 @@
-module.exports = {
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+
+const options: TypeOrmModuleOptions = {
   name: 'default',
   type: 'postgres',
   host: process.env.DATABASE_HOST || 'localhost',
@@ -19,3 +21,5 @@ module.exports = {
     migrationsDir: 'src/migrations',
   },
 };
+
+export { options };
