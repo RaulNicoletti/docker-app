@@ -6,21 +6,20 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
-import * as chalk from 'chalk';
+import { LoggerService } from 'src/modules/logger/logger.service';
 import { IDefaultResponse } from '../interfaces/default-reponse.interface.';
 import { Response, Request } from '../types/request.type';
 
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
+  constructor(private readonly logger: LoggerService) {}
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
     const status = this.getStatus(exception);
     const message = this.getMessage(exception);
 
-    if (process.env.LOG_EXCEPTIONS === 'true') {
-      this.createException(exception, ctx);
-    }
+    this.createException(exception, ctx);
 
     const response: IDefaultResponse = {
       status,
@@ -41,19 +40,7 @@ export class AllExceptionFilter implements ExceptionFilter {
     };
 
     Reflect.defineProperty(exception, 'request', { value: request });
-    this.logException(exception);
-  }
-
-  private logException(exception: any) {
-    console.log('\n');
-    console.group(
-      chalk.redBright('[Exception] -'),
-      chalk.whiteBright(new Date().toLocaleString()),
-    );
-    Reflect.ownKeys(exception).forEach((prop) =>
-      console.log(chalk.blueBright(prop), exception[prop]),
-    );
-    console.groupEnd();
+    this.logger.error(exception);
   }
 
   private getStatus(exception: any): number {

@@ -10,6 +10,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 import { PrismaModule } from './modules/prisma/prisma.module';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
+import { LoggerModule } from './modules/logger/logger.module';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { PrismaModule } from './modules/prisma/prisma.module';
     UserModule,
     AuthModule,
     PrismaModule,
+    LoggerModule,
   ],
   providers: [
     {
@@ -34,6 +37,10 @@ import { PrismaModule } from './modules/prisma/prisma.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: RequestInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
     },
     {
       provide: APP_GUARD,
