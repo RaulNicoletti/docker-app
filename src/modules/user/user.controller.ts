@@ -18,7 +18,7 @@ import {
   USER_SERVICE,
 } from './interfaces/user.service.interface';
 import { User } from '@prisma/client';
-import { SkipAuth } from 'src/decorators/skip-auth.decorator';
+import { SkipAuth } from '../../decorators/skip-auth.decorator';
 
 @Controller('user')
 export class UserController {
