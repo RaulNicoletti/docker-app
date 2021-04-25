@@ -5,7 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { IDefaultResponse } from 'src/interfaces/IDefaultResponse';
+import { IDefaultResponse } from 'src/interfaces/default-reponse.interface.';
 import { Response } from '../types/request.type';
 
 @Catch()

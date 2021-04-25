@@ -1,21 +1,24 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { FindOneOptions, Repository } from 'typeorm';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { hash, genSalt, compare } from 'bcrypt';
-import { User } from '../../entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { IUserService } from './interfaces/user.service.interface';
+import {
+  IUserRepository,
+  USER_REPOSITORY,
+} from './interfaces/user.repository.interface';
+import { User } from '@prisma/client';
 
 @Injectable()
-export class UserService {
+export class UserService implements IUserService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @Inject(USER_REPOSITORY) private readonly userRepository: IUserRepository,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { email, password } = createUserDto;
 
-    const findUser = await this.findByEmail(email);
+    const findUser = await this.userRepository.findByEmail(email);
 
     if (findUser) {
       throw new BadRequestException('Email já cadastrado.');
@@ -23,9 +26,10 @@ export class UserService {
 
     const hashedPassword = await this.hashPassword(password);
 
-    const user = new User();
-    user.email = email;
-    user.password = hashedPassword;
+    const user: Partial<User> = {
+      email,
+      password: hashedPassword,
+    };
 
     return this.userRepository.save(user);
   }
@@ -34,21 +38,14 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  async findOne(
-    id?: number,
-    options?: FindOneOptions<User>,
-  ): Promise<User> | undefined {
-    return this.userRepository.findOne(id, options);
-  }
-
-  async findByEmail(email: string): Promise<User> | undefined {
-    return this.userRepository.findOne(undefined, { where: { email } });
+  async findOne(id: number): Promise<User | undefined> {
+    return this.userRepository.findById(id);
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<boolean> {
     const { email, password, oldPassword } = updateUserDto;
 
-    const oldUser = await this.findOne(id);
+    const oldUser = await this.userRepository.findById(id);
 
     if (!oldUser) {
       throw new BadRequestException('Usuário não encontrado');
@@ -62,17 +59,26 @@ export class UserService {
 
     const hashedPassword = await this.hashPassword(password);
 
-    const user = new User();
-    user.email = email;
-    user.password = hashedPassword;
+    const user: Partial<User> = {
+      email,
+      password: hashedPassword,
+    };
 
-    const updated = await this.userRepository.update({ id }, user);
-    return updated.affected === 1;
+    const updated = await this.userRepository.update(id, user);
+    console.log(updated);
+    if (updated) return true;
+    return false;
+  }
+
+  async findByEmail(email: string): Promise<User | undefined> {
+    return this.userRepository.findByEmail(email);
   }
 
   async remove(id: number): Promise<boolean> {
-    const deleted = await this.userRepository.delete({ id });
-    return deleted.affected === 1;
+    const deleted = await this.userRepository.delete(id);
+    console.log(deleted);
+    if (deleted) return true;
+    return false;
   }
 
   private async hashPassword(password: string): Promise<string> {

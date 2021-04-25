@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IDefaultResponse } from 'src/interfaces/IDefaultResponse';
+import { IDefaultResponse } from 'src/interfaces/default-reponse.interface.';
 import { Response } from '../types/request.type';
 
 @Injectable()
