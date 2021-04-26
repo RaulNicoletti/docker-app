@@ -8,20 +8,25 @@ import {
   Delete,
   HttpStatus,
   Res,
-  UseGuards,
+  Inject,
 } from '@nestjs/common';
 import { Response } from '../../types/request.type';
-import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from '../../entities/user.entity';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import {
+  IUserService,
+  USER_SERVICE,
+} from './interfaces/user.service.interface';
+import { User } from '@prisma/client';
+import { SkipAuth } from '../../decorators/skip-auth.decorator';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    @Inject(USER_SERVICE) private readonly userService: IUserService,
+  ) {}
 
-  @UseGuards(JwtAuthGuard)
+  @SkipAuth()
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.userService.create(createUserDto);

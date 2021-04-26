@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply as Response } from 'fastify';
-import { User } from 'src/entities/user.entity';
+import { User } from '@prisma/client';
 
 interface Request extends FastifyRequest {
   user: Partial<User>;
